@@ -9,7 +9,7 @@ import os
 
 inngest_client = inngest.Inngest(
     app_id="rag_app",
-    logging=logging.getLogger("uvicorn"),
+    logger=logging.getLogger("uvicorn"),
     is_production=False,
     serializer=inngest.PydanticSerializer(),
 )
@@ -25,4 +25,4 @@ async def ingest_pdf(ctx: inngest.Context):
 #####################
 app = FastAPI()
 
-inngest.fast_api.serve(app, inngest_client, functions=[])
+inngest.fast_api.serve(app, inngest_client, functions=[ingest_pdf])
