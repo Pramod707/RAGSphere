@@ -3,7 +3,7 @@ from qdrant_client.models import VectorParams, Distance, PointStruct
 
 
 class QdrantStroage:
-    def __init__(self, url="http://localhost:6333", collection="docs", dim=1536):
+    def __init__(self, url="http://localhost:6333", collection="docs", dim=768):
         self.client = QdrantClient(url=url, timeout=20)
         self.collection = collection
         if not self.client.collection_exists():

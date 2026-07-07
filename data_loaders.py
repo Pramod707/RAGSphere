@@ -3,9 +3,8 @@ from langchain_ollama import ChatOllama
 from langchain_ollama import OllamaEmbeddings
 from llama_index.core.node_parser import SentenceSplitter
 
-client = ChatOllama()
-embedded_model = "qwen2.5:7b"
-embed_dim = 1536
+client = ChatOllama(model="qwen2.5:7b")
+embed_dim = 768
 splitters = SentenceSplitter(chunk_size=1000, chunk_overlap=200)
 
 
@@ -20,7 +19,8 @@ def load_and_chunkPdf(path: str):
     return chunks
 
 
-def embed_text(texts: list[str]) -> list[list[float]]:
-    response = OllamaEmbeddings(model=embedded_model, inputs=texts)
+embedding_model = OllamaEmbeddings(model="nomic-embed-text")
 
-    return [item.embeddings for item in response.data]
+
+def embed_text(texts: list[str]) -> list[list[float]]:
+    return embedding_model.embed_documents(texts)
