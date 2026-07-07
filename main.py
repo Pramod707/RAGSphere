@@ -88,7 +88,7 @@ async def rag_query_pdf_ai(ctx: inngest.Context) -> RAGSearchResult:
     answer = res.content
 
     return {
-        "answers": answer,
+        "answer": answer,
         "sources": found.sources,
         "number_context": len(found.context),
     }
