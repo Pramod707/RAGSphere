@@ -4,8 +4,8 @@ import uuid
 import inngest
 import inngest.fast_api
 from inngest.experimental import ai
-import datetime
-import os
+from data_loaders import embed_text, load_and_chunkPdf
+from vector_db import QdrantStroage
 
 inngest_client = inngest.Inngest(
     app_id="rag_app",
@@ -15,7 +15,7 @@ inngest_client = inngest.Inngest(
 )
 
 
-@inngest_client.create_function( 
+@inngest_client.create_function(
     fn_id="RAG : Ingest PDF", trigger=inngest.TriggerEvent(event="rag/ingest_pdf")
 )
 async def ingest_pdf(ctx: inngest.Context):
