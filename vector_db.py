@@ -2,19 +2,19 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance, PointStruct
 
 
-class QdrantStroage:
+class QdrantStorage:
     def __init__(self, url="http://localhost:6333", collection="docs", dim=768):
         self.client = QdrantClient(url=url, timeout=20)
         self.collection = collection
-        if not self.client.collection_exists():
+        if not self.client.collection_exists(self.collection):
             self.client.create_collection(
                 collection_name=self.collection,
                 vectors_config=VectorParams(size=dim, distance=Distance.COSINE),
             )
 
-    def upsert(self, vectors, ids, playloads):
+    def upsert(self, vectors, ids, payloads):
         points = [
-            PointStruct(id=ids[i], vector=vectors[i], playload=playloads[i])
+            PointStruct(id=ids[i], vector=vectors[i], payload=payloads[i])
             for i in range(len(vectors))
         ]
         self.client.upsert(self.collection, points=points)

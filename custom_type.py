@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class RAGChunkAndSrc(BaseModel):
     chunks: list[str]
-    source_id: None
+    source_id: str
 
 
 class RAGUpsertResult(BaseModel):

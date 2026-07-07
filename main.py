@@ -5,7 +5,7 @@ import inngest
 import inngest.fast_api
 from inngest.experimental import ai
 from data_loaders import embed_text, load_and_chunkPdf
-from vector_db import QdrantStroage
+from vector_db import QdrantStorage
 from custom_type import RAGUpsertResult, RAGSearchResult, RAGChunkAndSrc, RAGQueryResult
 
 inngest_client = inngest.Inngest(
@@ -35,8 +35,8 @@ async def ingest_pdf(ctx: inngest.Context):
             for i in range(len(chunks))
         ]
         payload = [{"source": source_id, "text": chunks[i]} for i in range(len(chunks))]
-        QdrantStroage().upsert(vecs, ids, payload)
-        return RAGUpsertResult(ingested=len(chunks))
+        QdrantStorage().upsert(vecs, ids, payload)
+        return RAGUpsertResult(ingest=len(chunks))
 
     chunk_and_src = await ctx.step.run(
         "load-and-chunk", lambda: _load(ctx), output_type=RAGChunkAndSrc
@@ -46,6 +46,13 @@ async def ingest_pdf(ctx: inngest.Context):
     )
     return inggested.model_dump()
 
+
+
+@inngest_client.create_function(
+    fn_id="RAG : Query PDF",
+    trigger = inngest.TriggerEvent(event="rag/query_pdf_ai"),
+)
+async def 
 
 #####################
 app = FastAPI()
